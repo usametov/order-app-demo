@@ -1,6 +1,10 @@
 package com.airtek.orders;
 
 import java.io.IOException;
+import java.util.logging.Logger;
+import java.util.logging.Level;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -13,9 +17,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class OrderRepository implements IOrderRepository{
 
-	public Optional<Map<String, Order>> getOrders() {
+    Map<String, Order> ordersMap = null;		
+
+	public Optional<Map<String, Order>> getOrders(int skip, int limit) {
+
+        Logger logger = Logger.getLogger(App.class.getName());
+		logger.setLevel(Level.FINE);	
 		
-		Map<String, Order> ordersMap = null;		
+		
 		
 		try {
 		    FileReader fileReader = new FileReader("./orders.json");
@@ -34,13 +43,25 @@ public class OrderRepository implements IOrderRepository{
           ordersMap = objectMapper.readValue(content.toString(), 
        		 new TypeReference<Map<String, Order>>() {});
           
-          return Optional.of(ordersMap);
+          if(limit > 0) {
+            List<String> sortedKeys = ordersMap.keySet().stream().sorted().toList();
+            List<String> keyBatch = sortedKeys.stream().skip(skip).limit(limit).toList();
+
+            HashMap<String, Order> batch = new HashMap<String, Order>();
+		    keyBatch.forEach(s->batch.put(s, ordersMap.get(s)));
+
+            return Optional.of(batch);
+          } 
+          else {
+            return Optional.of(ordersMap);  
+          }
 		
-		} catch (IOException e) {//IOException
+		} catch (IOException e) {
+            logger.log(Level.SEVERE, e.getStackTrace().toString());
             e.printStackTrace();
             return Optional.empty();
         }
 		
-	}
+	}    
 
 }

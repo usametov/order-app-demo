@@ -4,5 +4,5 @@ import java.util.Optional;
 
 public interface IOrderRepository {
 	
-	Optional<Map<String, Order>> getOrders();
+	Optional<Map<String, Order>> getOrders(int skip, int limit);
 }
