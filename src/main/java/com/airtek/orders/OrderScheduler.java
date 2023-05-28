@@ -14,7 +14,13 @@ public class OrderScheduler implements IOrderScheduler {
 
 	public Flight ScheduleFlightOrders(Flight flight, Map<String, Order> ordersMap) {
 		
-		List<String> sortedKeys = ordersMap.keySet().stream().sorted().limit(20).toList();
+		if(flight==null)
+			throw new IllegalArgumentException("can not work with null flight!", null);
+
+		if(ordersMap==null)
+			return flight;
+
+		List<String> sortedKeys = ordersMap.keySet().stream().sorted().toList();
 		List<Order> orders = new ArrayList<Order>();
 		for(String orderKey:sortedKeys) {
 			Order ord = ordersMap.get(orderKey);

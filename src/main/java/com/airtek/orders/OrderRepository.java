@@ -22,13 +22,10 @@ public class OrderRepository implements IOrderRepository{
 
 	public Optional<Map<String, Order>> getOrders(int skip, int limit) {
 
-        Logger logger = Logger.getLogger(App.class.getName());
-		logger.setLevel(Level.FINE);	
-        logger.addHandler(new ConsoleHandler());
-        
+        Logger logger = Logger.getLogger(OrderRepository.class.getName());
+		logger.setLevel(Level.FINE);	        
         logger.log(Level.FINE, "test logging");
-				
-		
+						
 		try {
 		    FileReader fileReader = new FileReader("./orders.json");
             BufferedReader bufferedReader = new BufferedReader(fileReader);
