@@ -27,12 +27,10 @@ public class AppTest
     {
         return new TestSuite( AppTest.class );
     }
-
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
+        
+    public void testOrderRepo()
     {
-        assertTrue( true );
+        IOrderRepository orderRepo = new OrderRepository();
+        assert(orderRepo.getOrders(110, 110).isEmpty());
     }
 }

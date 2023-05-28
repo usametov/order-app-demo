@@ -2,8 +2,9 @@ package com.airtek.orders;
 
 import java.io.IOException;
 import java.util.logging.Logger;
+import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
-import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +24,10 @@ public class OrderRepository implements IOrderRepository{
 
         Logger logger = Logger.getLogger(App.class.getName());
 		logger.setLevel(Level.FINE);	
-		
-		
+        logger.addHandler(new ConsoleHandler());
+        
+        logger.log(Level.FINE, "test logging");
+				
 		
 		try {
 		    FileReader fileReader = new FileReader("./orders.json");
